@@ -22,5 +22,5 @@ If this isn't present, the program makes a file called notes.txt
 This makes the program beep when it commits something to file and gives a seperate sound for immediate duplicates
 This also makes a sound if the program is ended with ctrl+v
 
--nodupe
+-nodupe  
 When this is present, the program will not commit the text to file if it is the same as the previous text copied. This prevents immediate duplicates.
