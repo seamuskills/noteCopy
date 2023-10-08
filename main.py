@@ -12,8 +12,7 @@ while True:
 
     try:
 
-        import keyboard, pyperclip, time
-        from plyer import notification
+        import keyboard, pyperclip, time, notifypy
 
         break
 
@@ -49,20 +48,31 @@ for i in sys.argv:
             f = sys.argv[sys.argv.index(i)+1]
         case "-notif":
             notif = True
+            note = notifypy.Notify()
         case "-nodupe":
             nodupe = True
 
 print("began listening and writing to path: " + f)
 
 def copyDown():
-    time.sleep(0.01)
     global previous
+
+    t = 0
     text = pyperclip.paste()
+    while t < 100 or text == previous:
+        text = pyperclip.paste()
+        time.sleep(0.01)
+        t += 1
+    time.sleep(0.01)
     if notif:
         if text != previous:
-            notification.notify(title="noteCopy | success", message="copied: " + text, timeout=1)
+            note.title="noteCopy | success"
+            note.message = "copied: " + text
+            note.send()
         else:
-            notification.notify(title="noteCopy | dupe", message="duplicate copy detected", timeout=1)
+            note.title = "noteCopy | dupe"
+            note.message = "duplicate copy detected"
+            note.send()
     if nodupe and text == previous:
         return
     with open(f, "a") as file:
